@@ -1,14 +1,46 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
+var config = require('./config');
+
+var app = express();
+app.set('port', config.get('port'));
+
+http.createServer(app).listen(app.get('port'), function () {
+  console.log("Express server listening on port " + config.get('port'));
+});
+
+/*//Middleware
+app.use(function (req, res, next) {
+  if(req.url == '/') {
+    res.end('Hello!');
+  } else  {
+    next();
+  }
+});
+
+app.use(function (req, res, next) {
+  if(req.url == '/test') {
+    res.end('Test!');
+  } else  {
+    next();
+  }
+});
+
+app.use(function(req, res) {
+  res.status(404).send('Page not found!');
+});*/
+
+
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
